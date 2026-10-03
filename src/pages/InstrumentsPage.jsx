@@ -298,16 +298,52 @@ export default function InstrumentsPage() {
                 key={inst.id || inst.sNo}
                 className="rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-xl hover:shadow-2xl hover:shadow-amber-500/5 hover:-translate-y-1"
               >
-                {/* Card Top Header */}
-                <div className="p-5 border-b border-slate-800/80 bg-slate-950/60">
-                  <div className="flex items-center justify-between mb-2.5">
-                    <span className="text-[11px] font-mono font-bold text-slate-400">
+                {/* Instrument Image Showcase */}
+                {inst.image && (
+                  <div 
+                    onClick={() => setActiveModalInstrument(inst)}
+                    className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-950 border-b border-slate-800 cursor-pointer group/img"
+                  >
+                    <img
+                      src={inst.image}
+                      alt={inst.item}
+                      className="w-full h-full object-cover object-center group-hover/img:scale-108 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none" />
+                    
+                    {/* S.No badge */}
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-slate-950/80 backdrop-blur-md text-[10px] font-mono font-bold text-amber-400 border border-slate-700">
                       S.NO # {String(inst.sNo).padStart(2, '0')}
                     </span>
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border ${getMakeBadgeColor(inst.make)}`}>
+
+                    {/* Make Brand badge */}
+                    <span className={`absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border backdrop-blur-md ${getMakeBadgeColor(inst.make)}`}>
                       {inst.make}
                     </span>
+
+                    {/* Hover Inspect Overlay */}
+                    <div className="absolute inset-0 bg-amber-500/10 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                      <span className="px-3 py-1.5 rounded-lg bg-slate-950/90 text-amber-400 font-mono text-xs font-bold border border-amber-500/40 shadow-lg flex items-center space-x-1.5">
+                        <Maximize2 className="w-3.5 h-3.5" />
+                        <span>Inspect Instrument</span>
+                      </span>
+                    </div>
                   </div>
+                )}
+
+                {/* Card Top Header */}
+                <div className="p-5 border-b border-slate-800/80 bg-slate-950/60">
+                  {!inst.image && (
+                    <div className="flex items-center justify-between mb-2.5">
+                      <span className="text-[11px] font-mono font-bold text-slate-400">
+                        S.NO # {String(inst.sNo).padStart(2, '0')}
+                      </span>
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border ${getMakeBadgeColor(inst.make)}`}>
+                        {inst.make}
+                      </span>
+                    </div>
+                  )}
 
                   <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
                     {inst.item}
@@ -411,6 +447,7 @@ export default function InstrumentsPage() {
               <thead>
                 <tr className="bg-slate-900 text-slate-300 font-mono border-b border-slate-800">
                   <th className="py-4 px-4 font-bold text-amber-400 w-16">S.No</th>
+                  <th className="py-4 px-4 font-bold text-slate-400 w-16 text-center">Photo</th>
                   <th className="py-4 px-4 font-bold text-white">Item Description / Instrument</th>
                   <th className="py-4 px-4 font-bold text-emerald-400">Make</th>
                   <th className="py-4 px-4 font-bold text-slate-300">Model</th>
@@ -429,6 +466,22 @@ export default function InstrumentsPage() {
                   >
                     <td className="py-3.5 px-4 font-bold text-slate-500 group-hover:text-amber-400">
                       {String(inst.sNo).padStart(2, '0')}
+                    </td>
+                    <td className="py-2.5 px-4 text-center">
+                      {inst.image ? (
+                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-slate-800 mx-auto group-hover:border-amber-500/60 transition-colors">
+                          <img 
+                            src={inst.image} 
+                            alt={inst.item} 
+                            className="w-full h-full object-cover" 
+                            loading="lazy"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-12 h-12 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600 mx-auto">
+                          <Gauge className="w-4 h-4" />
+                        </div>
+                      )}
                     </td>
                     <td className="py-3.5 px-4 font-bold text-white font-sans">
                       <div>
@@ -625,6 +678,27 @@ export default function InstrumentsPage() {
             {/* SCROLLABLE MODAL BODY */}
             <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4 sm:space-y-5 text-left">
               
+              {/* Instrument High-Res Metrology Image */}
+              {activeModalInstrument.image && (
+                <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-inner group">
+                  <img
+                    src={activeModalInstrument.image}
+                    alt={activeModalInstrument.item}
+                    className="w-full h-56 sm:h-72 object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 pointer-events-none" />
+                  
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs font-mono">
+                    <span className="px-3 py-1 rounded-lg bg-slate-900/90 backdrop-blur-md text-amber-400 font-bold border border-slate-700/80">
+                      Range: {activeModalInstrument.rangeSize}
+                    </span>
+                    <span className="px-3 py-1 rounded-lg bg-emerald-950/90 backdrop-blur-md text-emerald-400 font-bold border border-emerald-800/80">
+                      {activeModalInstrument.accuracy || 'Calibrated Master'}
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {/* Technical Specifications Grid */}
               <div className="grid grid-cols-2 gap-2.5 sm:gap-3 font-mono text-xs">
                 <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">

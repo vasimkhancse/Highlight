@@ -137,6 +137,7 @@ export default function QualitySection() {
             <thead>
               <tr className="bg-slate-900/90 text-slate-300 font-mono border-b border-slate-800">
                 <th className="py-4 px-4 font-bold text-amber-400 w-16">S.No</th>
+                <th className="py-4 px-4 font-bold text-slate-400 w-16 text-center">Photo</th>
                 <th className="py-4 px-4 font-bold text-white">Item Description / Specification</th>
                 <th className="py-4 px-4 font-bold text-emerald-400">Make</th>
                 <th className="py-4 px-4 font-bold text-slate-300">Model</th>
@@ -152,6 +153,18 @@ export default function QualitySection() {
                 >
                   <td className="py-3.5 px-4 font-bold text-slate-500 group-hover:text-amber-400">
                     {String(inst.sNo).padStart(2, '0')}
+                  </td>
+                  <td className="py-2 px-4 text-center">
+                    {inst.image && (
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-slate-900 border border-slate-800 mx-auto group-hover:border-emerald-500/50 transition-colors">
+                        <img 
+                          src={inst.image} 
+                          alt={inst.item} 
+                          className="w-full h-full object-cover" 
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
                   </td>
                   <td className="py-3.5 px-4 font-bold text-white font-sans">
                     <div className="flex items-center space-x-2">

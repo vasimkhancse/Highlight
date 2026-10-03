@@ -27,7 +27,7 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800/80 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-10 pb-12 border-b border-slate-800/80 text-left">
           
           {/* Col 1: Brand & Bio */}
           <div className="lg:col-span-4 space-y-4">
@@ -59,35 +59,6 @@ export default function Footer() {
                 <span>GST: <strong>{COMPANY_INFO.gstin}</strong></span>
               </span>
             </div>
-          </div>
-
-          {/* Col 2: Machinery & Capabilities */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-              Machinery & Capabilities
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li className="hover:text-white transition-colors flex items-center space-x-1.5">
-                <ChevronRight className="w-3 h-3 text-amber-500" />
-                <span>Vetrimach V650 CNC Milling (TAL)</span>
-              </li>
-              <li className="hover:text-white transition-colors flex items-center space-x-1.5">
-                <ChevronRight className="w-3 h-3 text-amber-500" />
-                <span>DSG 25 Heavy Lathe (1500mm Bed)</span>
-              </li>
-              <li className="hover:text-white transition-colors flex items-center space-x-1.5">
-                <ChevronRight className="w-3 h-3 text-amber-500" />
-                <span>DSG 17 Precision Lathe (UK)</span>
-              </li>
-              <li className="hover:text-white transition-colors flex items-center space-x-1.5">
-                <ChevronRight className="w-3 h-3 text-amber-500" />
-                <span>Lodge & Shipley LS 54 Lathe (USA)</span>
-              </li>
-              <li className="hover:text-white transition-colors flex items-center space-x-1.5">
-                <ChevronRight className="w-3 h-3 text-amber-500" />
-                <span>Mitutoyo & Insize Metrology Lab</span>
-              </li>
-            </ul>
           </div>
 
           {/* Col 3: Quick Navigation */}
