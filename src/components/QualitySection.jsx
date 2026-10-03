@@ -184,12 +184,19 @@ export default function QualitySection() {
           )}
         </div>
 
-        {/* Quality commitment footnote */}
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400 p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
+        {/* Quality commitment footnote & Separate Route CTA */}
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400 p-5 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-xl">
           <div className="flex items-center space-x-2 text-emerald-400">
             <CheckCircle className="w-4 h-4 shrink-0" />
             <span className="font-semibold">All master gauges are periodically calibrated against traceable standards.</span>
           </div>
+          <a
+            href="/instruments"
+            className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold transition-all"
+          >
+            <span>Open Dedicated Instruments & Gauges Page</span>
+            <Maximize className="w-3.5 h-3.5 ml-1" />
+          </a>
         </div>
 
       </div>

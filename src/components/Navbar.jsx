@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { 
-   Phone, 
-   Mail, 
-   MapPin, 
-   Menu, 
-   X, 
-   ChevronRight, 
-   ShieldCheck, 
-   MessageSquare,
-   Cog
- } from 'lucide-react';
+  Phone, 
+  Mail, 
+  MapPin, 
+  Menu, 
+  X, 
+  ChevronRight, 
+  ShieldCheck, 
+  MessageSquare
+} from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-export default function Navbar({ onOpenRfqModal }) {
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,19 +27,31 @@ export default function Navbar({ onOpenRfqModal }) {
   }, []);
 
   const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Infrastructure', href: '#infrastructure' },
-    { name: 'Machinery', href: '#machinery' },
-    { name: 'Quality Lab', href: '#quality' },
-    { name: 'Clients', href: '#clients' },
-    { name: 'Cost Estimator', href: '#estimator' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'About', href: '#about', isRoute: false },
+    { name: 'Infrastructure', href: '#infrastructure', isRoute: false },
+    { name: 'Machinery', href: '#machinery', isRoute: false },
+    { name: 'Instruments & Gauges', href: '/instruments', isRoute: true },
+    { name: 'Quality Lab', href: '#quality', isRoute: false },
+    { name: 'Clients', href: '#clients', isRoute: false },
+    { name: 'Cost Estimator', href: '#estimator', isRoute: false },
+    { name: 'Contact', href: '#contact', isRoute: false }
   ];
 
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
+  const handleNavClick = (e, link) => {
     setMobileMenuOpen(false);
-    const element = document.querySelector(href);
+
+    if (link.isRoute) {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (location.pathname !== '/') {
+      navigate('/' + link.href);
+      return;
+    }
+
+    const element = document.querySelector(link.href);
     if (element) {
       const navOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
@@ -46,6 +60,14 @@ export default function Navbar({ onOpenRfqModal }) {
         top: offsetPosition,
         behavior: 'smooth'
       });
+    }
+  };
+
+  const handleLogoClick = (e) => {
+    setMobileMenuOpen(false);
+    if (location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -98,7 +120,7 @@ export default function Navbar({ onOpenRfqModal }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
           {/* Logo & Company Name */}
-          <a href="#" className="flex items-center space-x-3 group">
+          <Link to="/" onClick={handleLogoClick} className="flex items-center space-x-3 group">
             <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-gradient-to-br from-amber-400 to-amber-600 p-0.5 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform duration-300">
               <img 
                 src="/assets/logo.png" 
@@ -114,32 +136,46 @@ export default function Navbar({ onOpenRfqModal }) {
                 Technology • Machine Shop
               </span>
             </div>
-          </a>
+          </Link>
 
-          {/* Desktop Links */}
+          {/* Desktop Links (Normal consistent styling for all items) */}
           <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-amber-400 hover:bg-slate-900/60 rounded-md transition-colors"
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isCurrentRoute = link.isRoute && location.pathname === link.href;
+              return link.isRoute ? (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                    isCurrentRoute
+                      ? 'text-amber-400 bg-slate-900/90 font-semibold'
+                      : 'text-slate-300 hover:text-amber-400 hover:bg-slate-900/60'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link)}
+                  className="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-amber-400 hover:bg-slate-900/60 rounded-md transition-colors"
+                >
+                  {link.name}
+                </a>
+              );
+            })}
           </div>
 
           {/* Action CTAs */}
           <div className="hidden sm:flex items-center space-x-3">
-            <a
-              href="#estimator"
-              onClick={(e) => handleNavClick(e, '#estimator')}
+            <button
+              onClick={(e) => handleNavClick(e, { href: '#estimator', isRoute: false })}
               className="inline-flex items-center space-x-1.5 px-4 py-2 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 rounded-lg shadow-md shadow-amber-500/20 hover:shadow-amber-500/40 hover:-translate-y-0.5 transition-all cursor-pointer uppercase tracking-wider"
             >
               <MessageSquare className="w-3.5 h-3.5" />
               <span>Get Instant Quote</span>
-            </a>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -157,17 +193,34 @@ export default function Navbar({ onOpenRfqModal }) {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-slate-950/98 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3 backdrop-blur-xl shadow-2xl animate-in slide-in-from-top duration-200">
           <div className="space-y-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="flex items-center justify-between px-3 py-2.5 text-base font-medium text-slate-200 hover:text-amber-400 hover:bg-slate-900 rounded-lg"
-              >
-                <span>{link.name}</span>
-                <ChevronRight className="w-4 h-4 text-slate-500" />
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isCurrentRoute = link.isRoute && location.pathname === link.href;
+              return link.isRoute ? (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center justify-between px-3 py-2.5 text-base font-medium rounded-lg transition-colors ${
+                    isCurrentRoute
+                      ? 'text-amber-400 bg-slate-900 font-semibold'
+                      : 'text-slate-200 hover:text-amber-400 hover:bg-slate-900'
+                  }`}
+                >
+                  <span>{link.name}</span>
+                  <ChevronRight className="w-4 h-4 text-slate-500" />
+                </Link>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link)}
+                  className="flex items-center justify-between px-3 py-2.5 text-base font-medium text-slate-200 hover:text-amber-400 hover:bg-slate-900 rounded-lg"
+                >
+                  <span>{link.name}</span>
+                  <ChevronRight className="w-4 h-4 text-slate-500" />
+                </a>
+              );
+            })}
           </div>
 
           <div className="pt-3 border-t border-slate-800 space-y-2.5">

@@ -96,12 +96,13 @@ export default function Footer() {
               Navigation
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li><a href="#about" className="hover:text-amber-400 transition-colors">About Company</a></li>
-              <li><a href="#infrastructure" className="hover:text-amber-400 transition-colors">Facility & Staff</a></li>
-              <li><a href="#machinery" className="hover:text-amber-400 transition-colors">Machinery Specs</a></li>
-              <li><a href="#quality" className="hover:text-amber-400 transition-colors">Quality Instruments</a></li>
-              <li><a href="#clients" className="hover:text-amber-400 transition-colors">Client Portfolio</a></li>
-              <li><a href="#estimator" className="hover:text-amber-400 transition-colors">RFQ Cost Estimator</a></li>
+              <li><a href="/#about" className="hover:text-amber-400 transition-colors">About Company</a></li>
+              <li><a href="/#infrastructure" className="hover:text-amber-400 transition-colors">Facility & Staff</a></li>
+              <li><a href="/#machinery" className="hover:text-amber-400 transition-colors">Machinery Specs</a></li>
+              <li><a href="/instruments" className="hover:text-amber-400 transition-colors"><span>Instruments & Gauges</span></a></li>
+              <li><a href="/#quality" className="hover:text-amber-400 transition-colors">Quality Lab Summary</a></li>
+              <li><a href="/#clients" className="hover:text-amber-400 transition-colors">Client Portfolio</a></li>
+              <li><a href="/#estimator" className="hover:text-amber-400 transition-colors">RFQ Cost Estimator</a></li>
             </ul>
           </div>
 
